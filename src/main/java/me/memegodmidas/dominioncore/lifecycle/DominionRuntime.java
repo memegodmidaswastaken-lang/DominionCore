@@ -1,5 +1,7 @@
 package me.memegodmidas.dominioncore.lifecycle;
 
+import me.memegodmidas.dominioncore.command.CommandRegistry;
+import me.memegodmidas.dominioncore.command.OpenDominionCoreGuiCommand;
 import me.memegodmidas.dominioncore.gui.GuiManager;
 import me.memegodmidas.dominioncore.gui.ScreenId;
 import me.memegodmidas.dominioncore.gui.SimpleGuiScreen;
@@ -11,11 +13,13 @@ public class DominionRuntime {
     private final PlatformAdapter platform;
     private final GuiManager guiManager;
     private final KeybindRegistry keybindRegistry;
+    private final CommandRegistry commandRegistry;
 
-    public DominionRuntime(PlatformAdapter platform, GuiManager guiManager, KeybindRegistry keybindRegistry) {
+    public DominionRuntime(PlatformAdapter platform, GuiManager guiManager, KeybindRegistry keybindRegistry, CommandRegistry commandRegistry) {
         this.platform = platform;
         this.guiManager = guiManager;
         this.keybindRegistry = keybindRegistry;
+        this.commandRegistry = commandRegistry;
     }
 
     public void initialize() {
@@ -23,6 +27,7 @@ public class DominionRuntime {
             registerClientScreens();
             registerClientKeybinds();
         }
+        registerCommands();
     }
 
     private void registerClientScreens() {
@@ -31,6 +36,10 @@ public class DominionRuntime {
         guiManager.register(new SimpleGuiScreen(ScreenId.FACTION_MENU, "Faction Menu", ignored -> { }));
         guiManager.register(new SimpleGuiScreen(ScreenId.RELIGION_MENU, "Religion Menu", ignored -> { }));
         guiManager.register(new SimpleGuiScreen(ScreenId.HUD_EDITOR, "HUD Editor", ignored -> { }));
+    }
+
+    private void registerCommands() {
+        commandRegistry.register(new OpenDominionCoreGuiCommand(guiManager));
     }
 
     private void registerClientKeybinds() {

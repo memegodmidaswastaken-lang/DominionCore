@@ -17,6 +17,7 @@ This repository includes an implementation scaffold for the DominionCore framewo
 ## Runtime behavior
 - `RuntimeSide.DEDICATED_SERVER`: loads gameplay/data systems only, no GUI/keybind registration.
 - `RuntimeSide.CLIENT`: registers DominionCore GUI screens and keybinds (`V`, `G`, `H`, `J`) for opening menus.
+- Core command `/DominionCore` is registered and opens the Dominion Manager GUI on client contexts.
 
 ## Run self-tests
 ```bash

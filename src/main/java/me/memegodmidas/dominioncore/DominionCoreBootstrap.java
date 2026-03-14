@@ -1,5 +1,6 @@
 package me.memegodmidas.dominioncore;
 
+import me.memegodmidas.dominioncore.command.CommandRegistry;
 import me.memegodmidas.dominioncore.config.CoreConfig;
 import me.memegodmidas.dominioncore.gui.GuiManager;
 import me.memegodmidas.dominioncore.input.KeybindRegistry;
@@ -31,6 +32,7 @@ public class DominionCoreBootstrap {
     private final PlatformAdapter platform;
     private final GuiManager guiManager;
     private final KeybindRegistry keybindRegistry;
+    private final CommandRegistry commandRegistry;
     private final DominionRuntime runtime;
 
     public DominionCoreBootstrap() {
@@ -42,7 +44,8 @@ public class DominionCoreBootstrap {
                 new DominionRegistry(),
                 new SimplePlatformAdapter(RuntimeSide.DEDICATED_SERVER),
                 new GuiManager(),
-                new KeybindRegistry()
+                new KeybindRegistry(),
+                new CommandRegistry()
         );
     }
 
@@ -55,7 +58,8 @@ public class DominionCoreBootstrap {
                 new DominionRegistry(),
                 new SimplePlatformAdapter(runtimeSide),
                 new GuiManager(),
-                new KeybindRegistry()
+                new KeybindRegistry(),
+                new CommandRegistry()
         );
     }
 
@@ -67,7 +71,8 @@ public class DominionCoreBootstrap {
             DominionRegistry dominionRegistry,
             PlatformAdapter platform,
             GuiManager guiManager,
-            KeybindRegistry keybindRegistry
+            KeybindRegistry keybindRegistry,
+            CommandRegistry commandRegistry
     ) {
         this.config = config;
         this.definitionLoader = definitionLoader;
@@ -77,7 +82,8 @@ public class DominionCoreBootstrap {
         this.platform = platform;
         this.guiManager = guiManager;
         this.keybindRegistry = keybindRegistry;
-        this.runtime = new DominionRuntime(platform, guiManager, keybindRegistry);
+        this.commandRegistry = commandRegistry;
+        this.runtime = new DominionRuntime(platform, guiManager, keybindRegistry, commandRegistry);
     }
 
     public void initializeRuntime() {
@@ -136,5 +142,9 @@ public class DominionCoreBootstrap {
 
     public PlatformAdapter platform() {
         return platform;
+    }
+
+    public CommandRegistry commandRegistry() {
+        return commandRegistry;
     }
 }
