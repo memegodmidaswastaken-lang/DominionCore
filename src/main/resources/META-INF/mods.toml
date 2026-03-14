@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+issueTrackerURL="https://example.com/dominioncore/issues"
+
+[[mods]]
+modId="dominioncore"
+version="0.1.0"
+displayName="DominionCore"
+description='''
+DominionCore is a framework-first MMO-style power progression mod scaffold.
+'''
+authors="memegodmidas"
+
+[[dependencies.dominioncore]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.dominioncore]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"

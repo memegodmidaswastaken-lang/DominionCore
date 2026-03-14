@@ -1,0 +1,14 @@
+{
+  "id": "authority",
+  "name": "Authority Dominion",
+  "source": "starter",
+  "formula": "(members*2)+(claimedChunks*3)+(onlineFollowers*5)+(structures*4)",
+  "maintenanceConditions": [
+    "maintain_members",
+    "maintain_claimed_chunks"
+  ],
+  "modifiers": [
+    "defense_bonus",
+    "territory_aura"
+  ]
+}

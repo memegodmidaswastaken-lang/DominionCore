@@ -1,0 +1,24 @@
+{
+  "id": "blood_reaver",
+  "name": "Blood Reaver",
+  "resource": "blood",
+  "scalingCondition": "kills",
+  "maxPrestige": 5,
+  "abilities": [
+    {
+      "id": "sanguine_claw",
+      "name": "Sanguine Claw",
+      "description": "Dash forward and slash nearby enemies.",
+      "type": "ACTIVE",
+      "baseCost": 20,
+      "scalingFormula": {
+        "damage": "4 + (blood * 0.1)"
+      }
+    }
+  ],
+  "mutationSlots": [
+    "tier_2",
+    "tier_4",
+    "tier_5"
+  ]
+}
