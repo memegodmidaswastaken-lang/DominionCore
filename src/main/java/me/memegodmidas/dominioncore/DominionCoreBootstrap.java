@@ -1,9 +1,15 @@
 package me.memegodmidas.dominioncore;
 
 import me.memegodmidas.dominioncore.config.CoreConfig;
+import me.memegodmidas.dominioncore.gui.GuiManager;
+import me.memegodmidas.dominioncore.input.KeybindRegistry;
+import me.memegodmidas.dominioncore.lifecycle.DominionRuntime;
 import me.memegodmidas.dominioncore.loader.JsonDefinitionLoader;
 import me.memegodmidas.dominioncore.model.BloodlineDefinition;
 import me.memegodmidas.dominioncore.model.DominionDefinition;
+import me.memegodmidas.dominioncore.platform.PlatformAdapter;
+import me.memegodmidas.dominioncore.platform.RuntimeSide;
+import me.memegodmidas.dominioncore.platform.SimplePlatformAdapter;
 import me.memegodmidas.dominioncore.registry.BloodlineRegistry;
 import me.memegodmidas.dominioncore.registry.DominionRegistry;
 import me.memegodmidas.dominioncore.scripting.DominionScriptEngine;
@@ -22,9 +28,35 @@ public class DominionCoreBootstrap {
     private final DominionScriptEngine scriptEngine;
     private final BloodlineRegistry bloodlineRegistry;
     private final DominionRegistry dominionRegistry;
+    private final PlatformAdapter platform;
+    private final GuiManager guiManager;
+    private final KeybindRegistry keybindRegistry;
+    private final DominionRuntime runtime;
 
     public DominionCoreBootstrap() {
-        this(CoreConfig.defaults(), new JsonDefinitionLoader(), new SimpleDominionScriptEngine(), new BloodlineRegistry(), new DominionRegistry());
+        this(
+                CoreConfig.defaults(),
+                new JsonDefinitionLoader(),
+                new SimpleDominionScriptEngine(),
+                new BloodlineRegistry(),
+                new DominionRegistry(),
+                new SimplePlatformAdapter(RuntimeSide.DEDICATED_SERVER),
+                new GuiManager(),
+                new KeybindRegistry()
+        );
+    }
+
+    public DominionCoreBootstrap(RuntimeSide runtimeSide) {
+        this(
+                CoreConfig.defaults(),
+                new JsonDefinitionLoader(),
+                new SimpleDominionScriptEngine(),
+                new BloodlineRegistry(),
+                new DominionRegistry(),
+                new SimplePlatformAdapter(runtimeSide),
+                new GuiManager(),
+                new KeybindRegistry()
+        );
     }
 
     DominionCoreBootstrap(
@@ -32,13 +64,24 @@ public class DominionCoreBootstrap {
             JsonDefinitionLoader definitionLoader,
             DominionScriptEngine scriptEngine,
             BloodlineRegistry bloodlineRegistry,
-            DominionRegistry dominionRegistry
+            DominionRegistry dominionRegistry,
+            PlatformAdapter platform,
+            GuiManager guiManager,
+            KeybindRegistry keybindRegistry
     ) {
         this.config = config;
         this.definitionLoader = definitionLoader;
         this.scriptEngine = scriptEngine;
         this.bloodlineRegistry = bloodlineRegistry;
         this.dominionRegistry = dominionRegistry;
+        this.platform = platform;
+        this.guiManager = guiManager;
+        this.keybindRegistry = keybindRegistry;
+        this.runtime = new DominionRuntime(platform, guiManager, keybindRegistry);
+    }
+
+    public void initializeRuntime() {
+        runtime.initialize();
     }
 
     public void loadFromPath(Path configRoot, Path scriptsRoot) {
@@ -81,5 +124,17 @@ public class DominionCoreBootstrap {
 
     public DominionRegistry dominionRegistry() {
         return dominionRegistry;
+    }
+
+    public GuiManager guiManager() {
+        return guiManager;
+    }
+
+    public KeybindRegistry keybindRegistry() {
+        return keybindRegistry;
+    }
+
+    public PlatformAdapter platform() {
+        return platform;
     }
 }
